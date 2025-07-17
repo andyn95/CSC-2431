@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include <float>
+#include <cfloat>
 
 using std::istream;
 using std::ostream;
@@ -14,13 +14,13 @@ using std::fixed;
 using std::setprecision;
 using std::showpos;
 
-Polynomial::Polynomial(size_t degree) : _degree(degreee){
+Polynomial::Polynomial(size_t degree) : _degree(degree){
 	_coefficients = new float[_degree + 1];
 	for (size_t i = 0; i < _degree + 1 ; i++) {
 		_coefficients[i] = 0.0;
 	}
 }
-Polynomial::Polynomial::Polynomial(size_t degree, const float* cofficients): _degree(degree){
+Polynomial::Polynomial::Polynomial(size_t degree, const float* coefficients): _degree(degree){
 	_coefficients = new float[_degree + 1];
 	for(size_t i = 0; i < _degree + 1; i++) {
 		_coefficients[i] = coefficients[i];
@@ -34,11 +34,12 @@ Polynomial::Polynomial(const Polynomial& polynomial): _degree(polynomial._degree
 }
 Polynomial::~Polynomial(){
 	//DO THIS FIRST TO PREVENT MEMORY LEAKS!
+	delete[] _coefficients;
 }
-const Polynomial Polynomial::Sum(const Polynomial$ rhs)const{
+const Polynomial Polynomial::Sum(const Polynomial& rhs)const{
 	return Polynomial(0);
 }
-const Polynomial Polynomial::Subtract(const Polynomail$ rhs)const{
+const Polynomial Polynomial::Subtract(const Polynomial& rhs)const{
 	return Polynomial(0);
 }
 const Polynomial Polynomial::Minus()const{
@@ -120,24 +121,18 @@ istream& Polynomial::Read(istream& input){
 		}
 	}
 
-	if (degre != degree){
-		if (_coefficients){
-			delete[] coefficients;
-			return input;
-		}
-	}
-
 	if (degree != _degree){
 		if (_coefficients){
-			delete[] _coefficients;
+			delete[] coefficients;
 		}
 		_degree = degree;
-		_coefficients = coefficients[i];
+		_coefficients = coefficients;
 	}else{
 		for (size_t i = 0; i < _degree + 1; i++) {
 			_coefficients[i] = coefficients[i];
 		}
 		delete[] coefficients;
+
 	}
 	return input;
 }
